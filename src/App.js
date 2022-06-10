@@ -10,7 +10,7 @@ import './App.css';
 import InfoBox from './InfoBox';
 import Map from './Map';
 import Table from './Table';
-import { sortData } from './utils';
+import { prettyPrintStat, sortData } from './utils';
 import LineGraph from './LineGraph';
 import 'leaflet/dist/leaflet.css';
 const App = () => {
@@ -98,24 +98,37 @@ const App = () => {
         {/* Stats section */}
         <div className='app__stats'>
           <InfoBox
+            isRed
+            active={casesType === 'cases'}
+            onClick={(e) => setCasesType('cases')}
             title={'Coronavirus Cases'}
-            cases={countryInfo.todayCases}
-            total={countryInfo.cases}
+            cases={prettyPrintStat(countryInfo.todayCases)}
+            total={prettyPrintStat(countryInfo.cases)}
           />
           <InfoBox
+            active={casesType === 'recovered'}
+            onClick={(e) => setCasesType('recovered')}
             title={'Coronavirus Recovered'}
-            cases={countryInfo.todayRecovered}
-            total={countryInfo.recovered}
+            cases={prettyPrintStat(countryInfo.todayRecovered)}
+            total={prettyPrintStat(countryInfo.recovered)}
           />
           <InfoBox
+            isRed
+            active={casesType === 'deaths'}
+            onClick={(e) => setCasesType('deaths')}
             title={'Cornavirus Deaths'}
-            cases={countryInfo.todayDeaths}
-            total={countryInfo.deaths}
+            cases={prettyPrintStat(countryInfo.todayDeaths)}
+            total={prettyPrintStat(countryInfo.deaths)}
           />
         </div>
 
         {/* Map section */}
-        <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
+        <Map
+          casesType={casesType}
+          countries={mapCountries}
+          center={mapCenter}
+          zoom={mapZoom}
+        />
       </div>
 
       {/* App Right */}
@@ -123,7 +136,7 @@ const App = () => {
         <CardContent>
           <h3>Live Cases by Country</h3>
           <Table countries={tableData} />
-          <h3>Wordwide new cases</h3>
+          <h3>Wordwide new cases {casesType}</h3>
 
           <LineGraph casesType={casesType} />
         </CardContent>

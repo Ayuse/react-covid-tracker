@@ -32,6 +32,10 @@ body{
     
 }
 
+.app__dropdown{
+  background-color: #fff;
+}
+
 @media (max-width: 990px){
   .app{
     flex-direction: column;
